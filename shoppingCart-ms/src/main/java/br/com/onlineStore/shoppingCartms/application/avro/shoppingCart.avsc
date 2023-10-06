@@ -1,0 +1,12 @@
+{"namespace": "br.com.onlineStore.shoppingCart.application.avro",
+  "type": "record",
+  "name": "shoppingCartRecord",
+  "fields": [
+    {"name": "id", "type": "long"},
+    {"name": "name", "type": "string"},
+    {"name": "price", "type": "double"},
+    {"name": "quantity", "type": "int"},
+    {"name": "dataTransferencia", "type": "string"},
+    {"name": "status", "type": "string"}
+  ]
+}

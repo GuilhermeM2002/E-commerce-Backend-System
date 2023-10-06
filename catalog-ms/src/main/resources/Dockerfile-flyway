@@ -1,0 +1,20 @@
+FROM ubuntu:latest
+
+RUN apt-get update && apt-get install -y mysql-client default-jre
+
+ENV FLYWAY_VERSION 9.20.0
+
+RUN apt-get update && apt-get install -y wget && \
+    wget -qO- https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/${FLYWAY_VERSION}/flyway-commandline-${FLYWAY_VERSION}.tar.gz | tar xvz && \
+    mv flyway-${FLYWAY_VERSION} /flyway && \
+    ln -s /flyway/flyway /usr/local/bin/flyway
+
+WORKDIR /flyway
+
+COPY db/migration /flyway/sql
+
+ENV FLYWAY_URL jdbc:mysql://catalog-db:3306/product
+ENV FLYWAY_USER root
+ENV FLYWAY_PASSWORD Gm1507@#
+
+CMD ["sh", "-c", "flyway migrate -url=$FLYWAY_URL -user=$FLYWAY_USER -password=$FLYWAY_PASSWORD"]
