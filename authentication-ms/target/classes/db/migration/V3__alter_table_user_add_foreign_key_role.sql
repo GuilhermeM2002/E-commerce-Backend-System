@@ -1,0 +1,1 @@
+alter table t_user add constraint user_role_fk foreign key (role_fk) references role (id);
