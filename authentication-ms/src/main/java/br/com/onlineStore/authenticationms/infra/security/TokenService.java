@@ -1,12 +1,10 @@
-package br.com.onlineStore.authenticationms.infra.config;
+package br.com.onlineStore.authenticationms.infra.security;
 
 import br.com.onlineStore.authenticationms.core.domain.User;
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -18,28 +16,31 @@ import java.time.ZoneOffset;
 public class TokenService {
     @Value("{api.security.token.secret}")
     private String secret;
-    public String TokenGenerator(User user){
+
+    public String tokenGenerator(User user){
         try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
+            var algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
-                    .withIssuer("AuthenticationMsOnlineStore")
-                    .withSubject(user.getEmail())
+                    .withIssuer("Vegano Space API")
+                    .withSubject(user.getUsername())
                     .withExpiresAt(dateExpires())
                     .sign(algorithm);
+
         } catch (JWTCreationException exception){
             throw new RuntimeException("Error to the generate token.", exception);
         }
     }
-    public DecodedJWT TokenVerifier(String token){
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer("AuthenticationMsOnlineStore")
-                    .build();
-
-            return verifier.verify(token);
-        } catch (JWTVerificationException exception){
-            throw new RuntimeException("Token invalid or expired", exception);
+    public String tokenVerification(String token){
+        try{
+            var algorithm = Algorithm.HMAC256(secret);
+            return JWT.require(algorithm)
+                    .withIssuer("Vegano Space API")
+                    .build()
+                    .verify(token)
+                    .getSubject();
+        }
+        catch (JWTVerificationException exception) {
+            throw new RuntimeException("Token JWT invalid or incorrect");
         }
     }
     private Instant dateExpires(){

@@ -1,4 +1,4 @@
-package br.com.onlineStore.authenticationms.infra.config;
+package br.com.onlineStore.authenticationms.infra.security;
 
 import br.com.onlineStore.authenticationms.adapters.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +10,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationService implements UserDetailsService {
     @Autowired
-    private UserRepository repository;
+    private UserRepository userRepository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repository.findUserByEmail(username);
+        return userRepository.findByEmail(username);
     }
 }

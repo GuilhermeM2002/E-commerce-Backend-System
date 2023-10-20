@@ -1,38 +1,45 @@
 package br.com.onlineStore.authenticationms.core.domain;
 
+import br.com.onlineStore.authenticationms.application.dto.SignUpDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Set;
+import java.util.Collections;
+
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity(name = "t_user")
 @Table(name = "t_user")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String fullName;
     private String cpf;
+    private String name;
     private String email;
     private String password;
-    private LocalDate dateBirthday;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
-    private boolean accountNotExpired;
-    private boolean credentialsNonExpired;
-    private boolean enabled;
+    @Column(name = "dt_birth")
+    private LocalDate dateBirth;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    public User(SignUpDto dto){
+        this.cpf = dto.cpf();
+        this.name = dto.name();
+        this.email = dto.email();
+        this.password = dto.password();
+        this.dateBirth = dto.dateBirth();
     }
 
     @Override
@@ -47,21 +54,21 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return accountNotExpired;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return credentialsNonExpired;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return true;
     }
 }
