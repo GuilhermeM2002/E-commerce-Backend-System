@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.OffsetDateTime;
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,9 +19,10 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
     @Column(name = "dt_order")
     private OffsetDateTime date;
+    @NotNull
+    private Set<Product> product;
     @NotNull
     @Column(name = "vl_order")
     private double value;
