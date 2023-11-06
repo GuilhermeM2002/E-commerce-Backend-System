@@ -21,14 +21,14 @@ public class SignInUseCaseImpl implements SignInUseCase {
     @Autowired
     private ModelMapper mapper;
     @Autowired
-    private KafkaTemplate<String, User> kafkaTemplate;
+    private KafkaTemplate<String, SignInDto> kafkaTemplate;
     @Override
     public UserTokenDto signIn(SignInDto dto) {
         var authenticationToken = new UsernamePasswordAuthenticationToken(dto.email(), dto.password());
         var authentication = authenticationManager.authenticate(authenticationToken);
         var token = tokenService.tokenGenerator((User) authentication.getPrincipal());
 
-        kafkaTemplate.send("user-logged", mapper.map(dto, User.class));
+        kafkaTemplate.send("user-logged", dto.email(), dto);
 
         return new UserTokenDto(token);
     }

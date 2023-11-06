@@ -1,7 +1,7 @@
 package br.com.onlineStore.authenticationms.infra.config;
 
+import br.com.onlineStore.authenticationms.application.dto.SignInDto;
 import br.com.onlineStore.authenticationms.core.domain.User;
-import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import java.util.HashMap;
 
@@ -19,7 +20,7 @@ public class ProducerKafkaConfig {
     private String bootstrapAddress;
 
     @Bean
-    public ProducerFactory<String, User> producerFactory(){
+    public ProducerFactory<String, SignInDto> producerFactory(){
         var configProps = new HashMap<String, Object>();
         configProps.put(
                 ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
@@ -28,15 +29,12 @@ public class ProducerKafkaConfig {
                 ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
                 StringSerializer.class);
         configProps.put(
-                "schema.registry.url",
-                "http://localhost:8081");
-        configProps.put(
                 ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-                KafkaAvroSerializer.class);
+                JsonSerializer.class);
         return new DefaultKafkaProducerFactory<>(configProps);
     }
     @Bean
-    public KafkaTemplate<String, User> kafkaTemplate(){
+    public KafkaTemplate<String, SignInDto> kafkaTemplate(){
         return new KafkaTemplate<>(producerFactory());
     }
 }
