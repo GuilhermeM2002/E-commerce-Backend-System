@@ -1,4 +1,4 @@
-package br.com.onlineStore.catalogms.aplication.dto;
+package br.com.onlineStore.catalogms.application.dto;
 
 import br.com.onlineStore.catalogms.core.domain.Category;
 import lombok.AllArgsConstructor;

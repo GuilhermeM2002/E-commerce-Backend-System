@@ -1,6 +1,5 @@
 package br.com.onlineStore.catalogms.core.domain;
 
-import br.com.onlineStore.catalogms.aplication.dto.ProductDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,7 +25,7 @@ public class Product {
     private double price;
     @NotBlank
     private String description;
-    @NotBlank
+    @NotNull
     private int quantity;
     @Enumerated(EnumType.STRING)
     @NotNull

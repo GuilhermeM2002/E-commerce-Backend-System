@@ -1,8 +1,8 @@
 package br.com.onlineStore.catalogms.controller;
 
-import br.com.onlineStore.catalogms.aplication.dto.ProductDto;
-import br.com.onlineStore.catalogms.aplication.useCasesImpl.PersistProductUseCaseImpl;
-import br.com.onlineStore.catalogms.aplication.useCasesImpl.UpdateProductUseCaseImpl;
+import br.com.onlineStore.catalogms.application.dto.ProductDto;
+import br.com.onlineStore.catalogms.application.useCasesImpl.PersistProductUseCaseImpl;
+import br.com.onlineStore.catalogms.application.useCasesImpl.UpdateProductUseCaseImpl;
 import br.com.onlineStore.catalogms.infra.exception.PriceInvalidException;
 import br.com.onlineStore.catalogms.infra.ProductRepositoryService;
 import jakarta.validation.Valid;

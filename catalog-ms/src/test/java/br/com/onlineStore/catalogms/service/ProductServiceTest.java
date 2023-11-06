@@ -1,6 +1,6 @@
 package br.com.onlineStore.catalogms.service;
 
-import br.com.onlineStore.catalogms.aplication.dto.ProductDto;
+import br.com.onlineStore.catalogms.application.dto.ProductDto;
 import br.com.onlineStore.catalogms.core.domain.Product;
 import br.com.onlineStore.catalogms.infra.impl.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;

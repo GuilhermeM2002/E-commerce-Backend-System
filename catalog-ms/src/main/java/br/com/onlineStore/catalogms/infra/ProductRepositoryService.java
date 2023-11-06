@@ -1,7 +1,7 @@
 package br.com.onlineStore.catalogms.infra;
 
 import br.com.onlineStore.catalogms.adapters.repository.ProductRepository;
-import br.com.onlineStore.catalogms.aplication.dto.ProductDto;
+import br.com.onlineStore.catalogms.application.dto.ProductDto;
 import br.com.onlineStore.catalogms.core.domain.Product;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;

@@ -1,7 +1,7 @@
-package br.com.onlineStore.catalogms.aplication.useCasesImpl;
+package br.com.onlineStore.catalogms.application.useCasesImpl;
 
 import br.com.onlineStore.catalogms.adapters.repository.ProductRepository;
-import br.com.onlineStore.catalogms.aplication.dto.ProductDto;
+import br.com.onlineStore.catalogms.application.dto.ProductDto;
 import br.com.onlineStore.catalogms.core.domain.Product;
 import br.com.onlineStore.catalogms.core.useCases.UpdateProductUseCase;
 import jakarta.persistence.EntityNotFoundException;
