@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/catalog-ms/pom.xml" />
         <option value="$PROJECT_DIR$/shoppingCart-ms/pom.xml" />
         <option value="$PROJECT_DIR$/authentication-ms/pom.xml" />
+        <option value="$PROJECT_DIR$/common/pom.xml" />
       </list>
     </option>
   </component>

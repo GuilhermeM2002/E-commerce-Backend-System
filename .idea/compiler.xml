@@ -8,11 +8,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="server" />
-        <module name="catalog-ms" />
         <module name="order-ms" />
+        <module name="common" />
+        <module name="authentication-ms" />
+        <module name="catalog-ms" />
         <module name="gateway" />
         <module name="shoppingCart-ms" />
-        <module name="authentication-ms" />
       </profile>
     </annotationProcessing>
   </component>
@@ -20,6 +21,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="authentication-ms" options="-parameters" />
       <module name="catalog-ms" options="-parameters" />
+      <module name="common" options="-parameters" />
       <module name="gateway" options="-parameters" />
       <module name="order-ms" options="-parameters" />
       <module name="server" options="-parameters" />
