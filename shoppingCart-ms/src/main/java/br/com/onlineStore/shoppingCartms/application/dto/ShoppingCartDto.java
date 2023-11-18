@@ -15,5 +15,6 @@ public class ShoppingCartDto {
     private Long id;
     private OffsetDateTime dateCreation;
     private String token;
+    private String userEmail;
     private Status status;
 }

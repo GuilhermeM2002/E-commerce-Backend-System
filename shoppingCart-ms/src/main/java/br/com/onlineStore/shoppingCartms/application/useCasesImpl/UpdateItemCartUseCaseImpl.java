@@ -2,14 +2,13 @@ package br.com.onlineStore.shoppingCartms.application.useCasesImpl;
 
 import br.com.onlineStore.shoppingCartms.application.dto.ItemCartDto;
 import br.com.onlineStore.shoppingCartms.core.domain.ItemCart;
-import br.com.onlineStore.shoppingCartms.core.domain.ShoppingCart;
-import br.com.onlineStore.shoppingCartms.core.useCases.UpdateCartUseCase;
+import br.com.onlineStore.shoppingCartms.core.useCases.UpdateItemCartUseCase;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UpdateCartUseCaseImpl implements UpdateCartUseCase {
+public class UpdateItemCartUseCaseImpl implements UpdateItemCartUseCase {
     @Override
-    public void updateCart(ItemCartDto dto, ItemCart item) {
+    public void updateItemCart(ItemCartDto dto, ItemCart item) {
         validateInput(dto, item);
         item.updateItemFromDto(dto);
     }

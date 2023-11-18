@@ -7,13 +7,13 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "codeProduct")
 @Entity
-@Table(name = "productCart")
+@Table(name = "product_cart")
 public class ProductCart {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private Long codeProduct;
     private String name;
     private double price;
     private int quantity;

@@ -1,7 +1,12 @@
 package br.com.onlineStore.shoppingCartms.controller;
 
 import br.com.onlineStore.shoppingCartms.application.dto.ItemCartDto;
+import br.com.onlineStore.shoppingCartms.application.dto.PersistDto;
+import br.com.onlineStore.shoppingCartms.application.useCasesImpl.GenerateItemCartUseCaseImpl;
 import br.com.onlineStore.shoppingCartms.infra.ShoppingCartRepositoryService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,11 +21,23 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class ShoppingCartController {
     @Autowired
     private ShoppingCartRepositoryService service;
-    @PostMapping("/{id}")
-    public ResponseEntity persist(@PathVariable Long id, @PathVariable int quantity, UriComponentsBuilder builder){
-        var uri = builder.path("/shoppingCart/{id}").buildAndExpand(id).toUri();
-        var cart = service.persistItemCart(id, quantity);
-        return ResponseEntity.created(uri).body(cart);
+    @Autowired
+    private GenerateItemCartUseCaseImpl generateItemCartUseCase;
+
+    @PostMapping
+    public ResponseEntity persist(
+            UriComponentsBuilder uriBuilder,
+            HttpServletResponse response,
+            @RequestBody PersistDto dto,
+            @CookieValue(name = "cart-token") String token){
+
+        var uri = uriBuilder.path("shoppingCart/${id}").buildAndExpand(dto.id()).toUri();
+        var item = generateItemCartUseCase.generateItemCart(dto, token);
+
+        var cookie = new Cookie("cart-token", item.getShoppingCart().getToken());
+        cookie.setMaxAge(60 * 60 * 72); //three days
+        response.addCookie(cookie);
+        return ResponseEntity.created(uri).body(item);
     }
 
     @PutMapping("{id}")

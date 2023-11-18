@@ -16,8 +16,10 @@ public class ItemCart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @ManyToOne
+    @JoinColumn(name = "cart_fk")
     private ShoppingCart shoppingCart;
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "product_fk")
     private ProductCart product;
     @Column(name = "qt_product")
     private int quantityOfProduct;
