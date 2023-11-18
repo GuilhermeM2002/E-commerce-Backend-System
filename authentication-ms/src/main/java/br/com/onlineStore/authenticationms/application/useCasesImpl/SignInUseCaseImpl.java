@@ -5,6 +5,7 @@ import br.com.onlineStore.authenticationms.core.domain.User;
 import br.com.onlineStore.authenticationms.core.useCases.SignInUseCase;
 import br.com.onlineStore.authenticationms.infra.security.TokenService;
 import br.com.onlineStore.authenticationms.application.dto.UserTokenDto;
+import br.com.onlineStore.common.SignIn;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -21,14 +22,14 @@ public class SignInUseCaseImpl implements SignInUseCase {
     @Autowired
     private ModelMapper mapper;
     @Autowired
-    private KafkaTemplate<String, SignInDto> kafkaTemplate;
+    private KafkaTemplate<String, SignIn> kafkaTemplate;
     @Override
     public UserTokenDto signIn(SignInDto dto) {
-        var authenticationToken = new UsernamePasswordAuthenticationToken(dto.email(), dto.password());
+        var authenticationToken = new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());
         var authentication = authenticationManager.authenticate(authenticationToken);
         var token = tokenService.tokenGenerator((User) authentication.getPrincipal());
 
-        kafkaTemplate.send("user-logged", dto.email(), dto);
+        kafkaTemplate.send("user-logged", mapper.map(dto, SignIn.class));
 
         return new UserTokenDto(token);
     }

@@ -1,7 +1,6 @@
 package br.com.onlineStore.authenticationms.infra.config;
 
-import br.com.onlineStore.authenticationms.application.dto.SignInDto;
-import br.com.onlineStore.authenticationms.core.domain.User;
+import br.com.onlineStore.common.SignIn;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +19,7 @@ public class ProducerKafkaConfig {
     private String bootstrapAddress;
 
     @Bean
-    public ProducerFactory<String, SignInDto> producerFactory(){
+    public ProducerFactory<String, SignIn> producerFactory(){
         var configProps = new HashMap<String, Object>();
         configProps.put(
                 ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
@@ -34,7 +33,7 @@ public class ProducerKafkaConfig {
         return new DefaultKafkaProducerFactory<>(configProps);
     }
     @Bean
-    public KafkaTemplate<String, SignInDto> kafkaTemplate(){
+    public KafkaTemplate<String, SignIn> kafkaTemplate(){
         return new KafkaTemplate<>(producerFactory());
     }
 }

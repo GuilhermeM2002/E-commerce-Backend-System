@@ -1,10 +1,19 @@
 package br.com.onlineStore.authenticationms.application.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public record SignInDto(
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class SignInDto {
         @NotBlank
-        String email,
+        private String email;
         @NotBlank
-        String password) {
+        private String password;
+        private String token;
 }
