@@ -2,6 +2,8 @@ package br.com.onlineStore.shoppingCartms.controller;
 
 import br.com.onlineStore.shoppingCartms.application.dto.ItemCartDto;
 import br.com.onlineStore.shoppingCartms.application.dto.PersistDto;
+import br.com.onlineStore.shoppingCartms.application.useCasesImpl.FindAllItemByUserEmailUseCaseImpl;
+import br.com.onlineStore.shoppingCartms.application.useCasesImpl.FindCartUsingTemporaryTokenUseCaseImpl;
 import br.com.onlineStore.shoppingCartms.application.useCasesImpl.GenerateItemCartUseCaseImpl;
 import br.com.onlineStore.shoppingCartms.infra.ShoppingCartRepositoryService;
 import jakarta.servlet.http.Cookie;
@@ -23,6 +25,8 @@ public class ShoppingCartController {
     private ShoppingCartRepositoryService service;
     @Autowired
     private GenerateItemCartUseCaseImpl generateItemCartUseCase;
+    @Autowired
+    private FindAllItemByUserEmailUseCaseImpl findAllItemByUserEmailUseCase;
 
     @PostMapping
     public ResponseEntity persist(
@@ -55,5 +59,11 @@ public class ShoppingCartController {
     @GetMapping
     public Page<ItemCartDto> findAll(@PageableDefault(sort = "price") Pageable pageable){
         return service.allShoppingCart(pageable);
+    }
+
+    @GetMapping("{token}")
+    public ResponseEntity findAllItemByUserEmail(@PathVariable String email){
+        var allItem = findAllItemByUserEmailUseCase.findAllItemByUserEmail(email);
+        return ResponseEntity.ok(allItem);
     }
 }
