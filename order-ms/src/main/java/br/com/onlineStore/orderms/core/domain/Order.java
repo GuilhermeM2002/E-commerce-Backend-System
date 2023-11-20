@@ -13,16 +13,23 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-@Entity(name = "orders")
-@Table(name = "orders")
+@Entity
+@Table(name = "order")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ManyToMany
+    @JoinTable(name = "order_item",
+        joinColumns = @JoinColumn(name = "order_id"),
+        inverseJoinColumns = @JoinColumn(name = "item_cart_id"))
+    @JoinColumn(name = "item_cart")
+    private Set<ItemCart> itemCart;
+    @OneToMany
+    @JoinColumn(name = "address_fk")
+    private Address address;
     @Column(name = "dt_order")
     private OffsetDateTime date;
-    @NotNull
-    private Set<Product> product;
     @NotNull
     @Column(name = "vl_order")
     private double value;

@@ -10,13 +10,13 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "codeProduct")
+@EqualsAndHashCode(of = "id")
 @Entity
-@Table(name = "product")
-public class Product {
+@Table(name = "cart")
+public class Cart{
     @Id
-    @Column(name = "id")
-    private Long codeProduct;
-    private String name;
-    private double price;
+    private Long id;
+    @Column(name = "user_email")
+    private String userEmail;
+    private String token;
 }

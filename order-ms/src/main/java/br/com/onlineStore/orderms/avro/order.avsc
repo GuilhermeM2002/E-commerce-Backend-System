@@ -1,9 +1,0 @@
-{
-  "namespace": "br.com.onlineStore.orderms.avro",
-  "type": "record",
-  "name": "OrderRecord",
-  "fields": [
-    {"name" : "id", "type": "long"},
-    {"name" : "date", "type": "string"}
-  ]
-}
