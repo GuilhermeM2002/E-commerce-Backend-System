@@ -1,8 +1,9 @@
 package br.com.onlineStore.catalogms.service;
 
 import br.com.onlineStore.catalogms.application.dto.ProductDto;
+import br.com.onlineStore.catalogms.application.useCasesImpl.UpdateProductUseCaseImpl;
 import br.com.onlineStore.catalogms.core.domain.Product;
-import br.com.onlineStore.catalogms.infra.impl.ProductRepository;
+import br.com.onlineStore.catalogms.infra.ProductRepositoryService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +34,9 @@ class ProductServiceTest {
     @Mock
     private ModelMapper mapper;
     @InjectMocks
-    private ProductRepository service;
+    private ProductRepositoryService service;
+    @InjectMocks
+    private UpdateProductUseCaseImpl updateProduct;
     private ProductDto dto;
     private Product product;
     private Long code;
@@ -66,7 +69,7 @@ class ProductServiceTest {
         when(repository.getReferenceById(code)).thenReturn(product);
         when(mapper.map(product, ProductDto.class)).thenReturn(dto);
 
-        ProductDto result = service.updateProduct(dto, code);
+        ProductDto result = updateProduct.updateProduct(code, dto);
 
         assertAll(
                 () -> assertNotNull(result),
@@ -80,7 +83,7 @@ class ProductServiceTest {
     void updateProductCase2() {
         when(repository.getReferenceById(code)).thenReturn(null);
 
-        assertThrows(EntityNotFoundException.class, () -> service.updateProduct(dto, code));
+        assertThrows(EntityNotFoundException.class, () -> updateProduct.updateProduct(code, dto));
         verify(repository).getReferenceById(code);
     }
     @Test
