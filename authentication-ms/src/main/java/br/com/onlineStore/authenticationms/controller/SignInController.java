@@ -2,6 +2,8 @@ package br.com.onlineStore.authenticationms.controller;
 
 import br.com.onlineStore.authenticationms.application.dto.SignInDto;
 import br.com.onlineStore.authenticationms.application.useCasesImpl.SignInUseCaseImpl;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +15,14 @@ public class SignInController {
     @Autowired
     private SignInUseCaseImpl signInUseCase;
     @PostMapping
-    public ResponseEntity login(@RequestBody @Valid SignInDto dto, @CookieValue(name = "cart-token") String token){
+    public ResponseEntity login(
+            @RequestBody @Valid SignInDto dto,
+            @CookieValue(name = "cart-token") String token,
+            HttpServletResponse response
+    ){
         dto.setToken(token);
+        var cookie = new Cookie("email-cookie", dto.getEmail());
+        response.addCookie(cookie);
         return ResponseEntity.ok(signInUseCase.signIn(dto));
     }
 
