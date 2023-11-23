@@ -23,7 +23,6 @@ public class Order {
     @JoinTable(name = "order_item",
         joinColumns = @JoinColumn(name = "order_id"),
         inverseJoinColumns = @JoinColumn(name = "item_cart_id"))
-    @JoinColumn(name = "item_cart")
     private Set<ItemCart> itemCart;
     @OneToMany
     @JoinColumn(name = "address_fk")
@@ -34,6 +33,7 @@ public class Order {
     @Column(name = "vl_order")
     private double value;
     @NotBlank
+    @Column(name = "tracking_code")
     private String TrackingCode;
     @NotNull
     @Enumerated(value = EnumType.STRING)

@@ -3,6 +3,7 @@ package br.com.onlineStore.orderms.application.useCasesImpl;
 import br.com.onlineStore.orderms.adapters.http.CartClient;
 import br.com.onlineStore.orderms.adapters.repository.OrderRepository;
 import br.com.onlineStore.orderms.application.dto.AddressDto;
+import br.com.onlineStore.orderms.application.dto.ItemDto;
 import br.com.onlineStore.orderms.application.dto.OrderDto;
 import br.com.onlineStore.orderms.core.domain.Address;
 import br.com.onlineStore.orderms.core.domain.ItemCart;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.OffsetDateTime;
 import java.util.Set;
+import java.util.UUID;
 
 public class MakeOrderUseCaseImpl implements MakeOrderUseCase {
     @Autowired
@@ -32,13 +34,7 @@ public class MakeOrderUseCaseImpl implements MakeOrderUseCase {
             var allItemsFromCartDto = cartClient.getAllItems(email);
             var allItemsFromCart = (Set<ItemCart>) allItemsFromCartDto.stream().map(item -> mapper.map(item, ItemCart.class));
 
-            var order = new Order();
-            order.setItemCart(allItemsFromCart);
-            order.setAddress(
-                    mapper.map(registerAddressUseCase.registerAddress(addressDto), Address.class));
-            order.setDate(OffsetDateTime.now().minusHours(3));
-            order.setStatus(Status.PROCESSING);
-            order.setValue(orderTotalPriceUseCase.orderTotalPrice(allItemsFromCartDto));
+            var order = createOrder(allItemsFromCart, addressDto);
 
             orderRepository.save(order);
 
@@ -46,5 +42,19 @@ public class MakeOrderUseCaseImpl implements MakeOrderUseCase {
         }
         //make the exception
         throw new RuntimeException("email not be null");
+    }
+    private Order createOrder(Set<ItemCart> allItemsFromCart, AddressDto addressDto){
+        var order = new Order();
+
+        order.setItemCart(allItemsFromCart);
+        order.setAddress(
+                mapper.map(registerAddressUseCase.registerAddress(addressDto), Address.class));
+        order.setDate(OffsetDateTime.now().minusHours(3));
+        order.setTrackingCode(UUID.randomUUID().toString());
+        order.setStatus(Status.PROCESSING);
+        order.setValue(orderTotalPriceUseCase.orderTotalPrice(
+                (Set<ItemDto>) allItemsFromCart.stream().map(item -> mapper.map(item, ItemCart.class))));
+
+        return order;
     }
 }
