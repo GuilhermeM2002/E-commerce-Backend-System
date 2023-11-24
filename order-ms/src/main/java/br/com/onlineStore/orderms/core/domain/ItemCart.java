@@ -1,9 +1,6 @@
 package br.com.onlineStore.orderms.core.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -16,8 +13,10 @@ import lombok.*;
 public class ItemCart {
     @Id
     private Long id;
+    @ManyToOne
     @JoinColumn(name = "cart_fk")
     private Cart cart;
+    @ManyToOne
     @JoinColumn(name = "product_fk")
     private Product product;
     private int quantity;

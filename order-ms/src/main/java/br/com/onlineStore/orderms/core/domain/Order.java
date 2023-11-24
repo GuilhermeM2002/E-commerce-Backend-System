@@ -24,7 +24,7 @@ public class Order {
         joinColumns = @JoinColumn(name = "order_id"),
         inverseJoinColumns = @JoinColumn(name = "item_cart_id"))
     private Set<ItemCart> itemCart;
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "address_fk")
     private Address address;
     @Column(name = "dt_order")

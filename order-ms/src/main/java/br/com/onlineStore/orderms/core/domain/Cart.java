@@ -18,5 +18,4 @@ public class Cart{
     private Long id;
     @Column(name = "user_email")
     private String userEmail;
-    private String token;
 }
