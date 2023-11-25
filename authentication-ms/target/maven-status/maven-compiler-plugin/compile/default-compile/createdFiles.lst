@@ -1,0 +1,13 @@
+br/com/onlineStore/authenticationms/core/useCases/SignInUseCase.class
+br/com/onlineStore/authenticationms/infra/security/TokenService.class
+br/com/onlineStore/authenticationms/infra/springDoc/SpringDocConfiguration.class
+br/com/onlineStore/authenticationms/controller/SignInController.class
+br/com/onlineStore/authenticationms/infra/config/SecurityConfiguration.class
+br/com/onlineStore/authenticationms/application/dto/SignUpDto.class
+br/com/onlineStore/authenticationms/application/dto/UserTokenDto.class
+br/com/onlineStore/authenticationms/infra/security/SecurityFilter.class
+br/com/onlineStore/authenticationms/core/domain/User.class
+br/com/onlineStore/authenticationms/adapters/repository/UserRepository.class
+br/com/onlineStore/authenticationms/application/dto/SignInDto.class
+br/com/onlineStore/authenticationms/application/useCasesImpl/SignInUseCaseImpl.class
+br/com/onlineStore/authenticationms/application/dto/SignUpOutputDto.class

@@ -1,0 +1,1 @@
+alter table product add column quantity numeric(4,0) not null;
