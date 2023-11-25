@@ -27,7 +27,7 @@ public class OrderController {
 
         return ResponseEntity.created(uri).body(order);
     }
-    @DeleteMapping("${id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity cancelOrder(@PathVariable Long id){
         cancelOrderUseCase.cancelOrder(id);
         return ResponseEntity.noContent().build();
