@@ -12,11 +12,12 @@ import br.com.onlineStore.orderms.core.domain.Status;
 import br.com.onlineStore.orderms.core.useCases.MakeOrderUseCase;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
 import java.util.Set;
 import java.util.UUID;
-
+@Service
 public class MakeOrderUseCaseImpl implements MakeOrderUseCase {
     @Autowired
     private CartClient cartClient;
