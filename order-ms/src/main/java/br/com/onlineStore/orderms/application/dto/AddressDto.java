@@ -1,7 +1,5 @@
 package br.com.onlineStore.orderms.application.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import lombok.*;
 
 @Getter

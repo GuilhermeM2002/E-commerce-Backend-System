@@ -17,7 +17,7 @@ public class OrderController {
     private CancelOrderUseCaseImpl cancelOrderUseCase;
 
     @PostMapping
-    public ResponseEntity makeOrder(
+    public ResponseEntity<OrderDto> makeOrder(
             @RequestBody OrderDto orderDto,
             @CookieValue String email,
             UriComponentsBuilder uriComponentsBuilder)
@@ -28,7 +28,7 @@ public class OrderController {
         return ResponseEntity.created(uri).body(order);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity cancelOrder(@PathVariable Long id){
+    public ResponseEntity<String> cancelOrder(@PathVariable Long id){
         cancelOrderUseCase.cancelOrder(id);
         return ResponseEntity.noContent().build();
     }

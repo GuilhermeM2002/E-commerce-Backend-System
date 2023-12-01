@@ -1,6 +1,5 @@
 package br.com.onlineStore.shoppingCartms.application.dto;
 
-import jakarta.persistence.*;
 import lombok.*;
 
 @Getter

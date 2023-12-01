@@ -3,13 +3,14 @@ package br.com.onlineStore.shoppingCartms.controller;
 import br.com.onlineStore.shoppingCartms.application.dto.ItemCartDto;
 import br.com.onlineStore.shoppingCartms.application.dto.PersistDto;
 import br.com.onlineStore.shoppingCartms.application.useCasesImpl.FindAllItemByUserEmailUseCaseImpl;
-import br.com.onlineStore.shoppingCartms.application.useCasesImpl.FindCartUsingTemporaryTokenUseCaseImpl;
 import br.com.onlineStore.shoppingCartms.application.useCasesImpl.GenerateItemCartUseCaseImpl;
 import br.com.onlineStore.shoppingCartms.infra.ShoppingCartRepositoryService;
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,7 +30,7 @@ public class ShoppingCartController {
     private FindAllItemByUserEmailUseCaseImpl findAllItemByUserEmailUseCase;
 
     @PostMapping
-    public ResponseEntity persist(
+    public ResponseEntity<ItemCartDto> persist(
             UriComponentsBuilder uriBuilder,
             HttpServletResponse response,
             @RequestBody PersistDto dto,
@@ -45,13 +46,13 @@ public class ShoppingCartController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity update(@RequestBody @Valid ItemCartDto dto, @PathVariable Long id){
+    public ResponseEntity<ItemCartDto> update(@RequestBody @Valid ItemCartDto dto, @PathVariable Long id){
         var cart = service.updateItemCart(dto, id);
         return ResponseEntity.ok(cart);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity delete(@PathVariable Long id){
+    public ResponseEntity<String> delete(@PathVariable Long id){
         service.deleteProductCart(id);
         return ResponseEntity.noContent().build();
     }
@@ -62,7 +63,7 @@ public class ShoppingCartController {
     }
 
     @GetMapping("{token}")
-    public ResponseEntity findAllItemByUserEmail(@PathVariable String email){
+    public ResponseEntity<Set<ItemCartDto>> findAllItemByUserEmail(@PathVariable String email){
         var allItem = findAllItemByUserEmailUseCase.findAllItemByUserEmail(email);
         return ResponseEntity.ok(allItem);
     }

@@ -1,11 +1,9 @@
 package br.com.onlineStore.shoppingCartms.core.domain;
 
-import br.com.onlineStore.shoppingCartms.application.dto.ShoppingCartDto;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor

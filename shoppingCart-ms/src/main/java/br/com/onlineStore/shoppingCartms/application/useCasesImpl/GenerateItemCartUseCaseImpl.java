@@ -1,7 +1,6 @@
 package br.com.onlineStore.shoppingCartms.application.useCasesImpl;
 
 import br.com.onlineStore.shoppingCartms.adapters.repository.ItemCartRepository;
-import br.com.onlineStore.shoppingCartms.adapters.repository.ShoppingCartRepository;
 import br.com.onlineStore.shoppingCartms.application.dto.ItemCartDto;
 import br.com.onlineStore.shoppingCartms.application.dto.PersistDto;
 import br.com.onlineStore.shoppingCartms.core.domain.ItemCart;
@@ -16,8 +15,6 @@ import org.springframework.stereotype.Service;
 public class GenerateItemCartUseCaseImpl implements GenerateItemCartUseCase  {
     @Autowired
     private ItemCartRepository itemCartRepository;
-    @Autowired
-    private ShoppingCartRepository shoppingCartRepository;
     @Autowired
     private GenerateCartTemporaryUseCaseImpl generateCartTemporary;
     @Autowired

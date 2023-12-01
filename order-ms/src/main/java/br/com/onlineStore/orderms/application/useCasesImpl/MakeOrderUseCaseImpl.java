@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.OffsetDateTime;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 @Service
 public class MakeOrderUseCaseImpl implements MakeOrderUseCase {
     @Autowired
@@ -33,7 +34,8 @@ public class MakeOrderUseCaseImpl implements MakeOrderUseCase {
     public OrderDto makeOrder(String email, AddressDto addressDto) {
         if(email != null){
             var allItemsFromCartDto = cartClient.getAllItems(email);
-            var allItemsFromCart = (Set<ItemCart>) allItemsFromCartDto.stream().map(item -> mapper.map(item, ItemCart.class));
+            var allItemsFromCart = allItemsFromCartDto.stream().map(
+                item -> mapper.map(item, ItemCart.class)).collect(Collectors.toSet());
 
             var order = createOrder(allItemsFromCart, addressDto);
 
@@ -53,8 +55,8 @@ public class MakeOrderUseCaseImpl implements MakeOrderUseCase {
         order.setDate(OffsetDateTime.now().minusHours(3));
         order.setTrackingCode(UUID.randomUUID().toString());
         order.setStatus(Status.PROCESSING);
-        order.setValue(orderTotalPriceUseCase.orderTotalPrice(
-                (Set<ItemDto>) allItemsFromCart.stream().map(item -> mapper.map(item, ItemCart.class))));
+        order.setValue(orderTotalPriceUseCase.orderTotalPrice(allItemsFromCart.stream().map(
+                    item -> mapper.map(item, ItemDto.class)).collect(Collectors.toSet())));
 
         return order;
     }

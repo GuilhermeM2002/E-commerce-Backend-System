@@ -1,6 +1,7 @@
 package br.com.onlineStore.authenticationms.controller;
 
 import br.com.onlineStore.authenticationms.application.dto.SignInDto;
+import br.com.onlineStore.authenticationms.application.dto.UserTokenDto;
 import br.com.onlineStore.authenticationms.application.useCasesImpl.SignInUseCaseImpl;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,7 +16,7 @@ public class SignInController {
     @Autowired
     private SignInUseCaseImpl signInUseCase;
     @PostMapping
-    public ResponseEntity login(
+    public ResponseEntity<UserTokenDto> login(
             @RequestBody @Valid SignInDto dto,
             @CookieValue(name = "cart-token") String token,
             HttpServletResponse response

@@ -24,20 +24,20 @@ public class ProductController {
     @Autowired
     private UpdateProductUseCaseImpl updateProduct;
     @PostMapping
-    public ResponseEntity persist(@RequestBody @Valid ProductDto dto, UriComponentsBuilder builder) throws PriceInvalidException {
+    public ResponseEntity<ProductDto> persist(@RequestBody @Valid ProductDto dto, UriComponentsBuilder builder) throws PriceInvalidException {
         var product = persistProduct.persistProduct(dto);
         var uri = builder.path("product/{code}").buildAndExpand(product.getCodeProduct()).toUri();
         return ResponseEntity.created(uri).body(product);
     }
 
     @PutMapping("{code}")
-    public ResponseEntity update(@RequestBody @Valid ProductDto dto, @PathVariable Long code){
+    public ResponseEntity<ProductDto> update(@RequestBody @Valid ProductDto dto, @PathVariable Long code){
         var product = updateProduct.updateProduct(code, dto);
         return ResponseEntity.ok(product);
     }
 
     @DeleteMapping("{code}")
-    public ResponseEntity delete(@PathVariable Long code){
+    public ResponseEntity<String> delete(@PathVariable Long code){
         productRepository.deleteProduct(code);
         return ResponseEntity.noContent().build();
     }

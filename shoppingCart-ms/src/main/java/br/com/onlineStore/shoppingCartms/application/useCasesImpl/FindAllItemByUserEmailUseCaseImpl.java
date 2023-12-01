@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 @Service
 public class FindAllItemByUserEmailUseCaseImpl implements FindAllItemByUserEmailUseCase {
     @Autowired
@@ -18,6 +19,7 @@ public class FindAllItemByUserEmailUseCaseImpl implements FindAllItemByUserEmail
     public Set<ItemCartDto> findAllItemByUserEmail(String email) {
         var allItem = itemCartRepository.findByShoppingCart_UserEmail(email);
 
-        return (Set<ItemCartDto>) allItem.stream().map(item -> mapper.map(item, ItemCartDto.class));
+        return allItem.stream().map(item -> mapper.map(
+            item, ItemCartDto.class)).collect(Collectors.toSet());
     }
 }

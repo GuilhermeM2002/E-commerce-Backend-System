@@ -1,6 +1,7 @@
 package br.com.onlineStore.authenticationms.controller;
 
 import br.com.onlineStore.authenticationms.application.dto.SignUpDto;
+import br.com.onlineStore.authenticationms.application.dto.SignUpOutputDto;
 import br.com.onlineStore.authenticationms.application.useCasesImpl.SignUpUseCaseImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class SignUpController {
 
     @PostMapping("/sign-up")
     @Transactional
-    public ResponseEntity persist(@RequestBody @Valid SignUpDto dto, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<SignUpOutputDto> persist(@RequestBody @Valid SignUpDto dto, UriComponentsBuilder uriBuilder){
         var user = signUpUseCase.signUp(dto);
         var uri = uriBuilder.path("/sign-up/{id}").buildAndExpand(user.id()).toUri();
 
