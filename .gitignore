@@ -1,0 +1,10 @@
+### VS Code ###
+.vscode/
+
+### DOCKER ###
+.docker/
+
+### DEVCONTAINER ###
+.devcontainer/
+
+.idea/

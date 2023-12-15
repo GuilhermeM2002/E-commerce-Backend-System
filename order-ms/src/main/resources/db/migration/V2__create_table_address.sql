@@ -5,6 +5,7 @@ create table address(
     city varchar(60) not null,
     neighborhood varchar(40) not null,
     street varchar(40) not null,
+    complement varchar(60),
     number varchar(10) not null,
 
     primary key(id)
