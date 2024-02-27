@@ -29,13 +29,10 @@ public class Order {
     private Address address;
     @Column(name = "dt_order")
     private OffsetDateTime date;
-    @NotNull
     @Column(name = "vl_order")
     private double value;
-    @NotBlank
     @Column(name = "tracking_code")
-    private String TrackingCode;
-    @NotNull
+    private String trackingCode;
     @Enumerated(value = EnumType.STRING)
     private Status status;
 }
