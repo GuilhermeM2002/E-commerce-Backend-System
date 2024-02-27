@@ -18,10 +18,12 @@ public class SignInController {
     @PostMapping
     public ResponseEntity<UserTokenDto> login(
             @RequestBody @Valid SignInDto dto,
-            @CookieValue(name = "cart-token") String token,
+            @CookieValue(name = "cart-token", required = false) String token,
             HttpServletResponse response
     ){
-        dto.setToken(token);
+        if(token != null){
+           dto.setToken(token); 
+        }
         var cookie = new Cookie("email-cookie", dto.getEmail());
         response.addCookie(cookie);
         return ResponseEntity.ok(signInUseCase.signIn(dto));

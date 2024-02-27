@@ -29,7 +29,9 @@ public class SignInUseCaseImpl implements SignInUseCase {
         var authentication = authenticationManager.authenticate(authenticationToken);
         var token = tokenService.tokenGenerator((User) authentication.getPrincipal());
 
-        kafkaTemplate.send("user-logged", mapper.map(dto, SignIn.class));
+        var signIn = mapper.map(dto, SignIn.class);
+
+        kafkaTemplate.send("user-logged", signIn);
 
         return new UserTokenDto(token);
     }
