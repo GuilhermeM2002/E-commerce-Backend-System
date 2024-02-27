@@ -1,4 +1,4 @@
-package br.com.onlineStore.catalogms.infra.exception;
+package br.com.onlineStore.catalogms.core.exception;
 
 import jakarta.persistence.EntityNotFoundException;
 

@@ -1,4 +1,4 @@
-package br.com.onlineStore.catalogms.infra.exception;
+package br.com.onlineStore.catalogms.core.exception;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
