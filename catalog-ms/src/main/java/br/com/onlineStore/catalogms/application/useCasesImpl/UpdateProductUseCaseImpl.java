@@ -1,9 +1,9 @@
 package br.com.onlineStore.catalogms.application.useCasesImpl;
 
-import br.com.onlineStore.catalogms.adapters.repository.ProductRepository;
 import br.com.onlineStore.catalogms.application.dto.ProductDto;
 import br.com.onlineStore.catalogms.core.domain.Product;
 import br.com.onlineStore.catalogms.core.useCases.UpdateProductUseCase;
+import br.com.onlineStore.catalogms.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

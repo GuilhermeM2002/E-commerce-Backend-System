@@ -1,4 +1,4 @@
-package br.com.onlineStore.catalogms.adapters.repository;
+package br.com.onlineStore.catalogms.repository;
 
 import br.com.onlineStore.catalogms.core.domain.Product;
 import org.springframework.data.jpa.repository.JpaRepository;

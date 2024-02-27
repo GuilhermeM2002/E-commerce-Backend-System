@@ -1,8 +1,7 @@
 package br.com.onlineStore.catalogms.infra;
 
-import br.com.onlineStore.catalogms.adapters.repository.ProductRepository;
 import br.com.onlineStore.catalogms.application.dto.ProductDto;
-import br.com.onlineStore.catalogms.core.domain.Product;
+import br.com.onlineStore.catalogms.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +15,6 @@ public class ProductRepositoryService{
     private ProductRepository repository;
     @Autowired
     private ModelMapper mapper;
-
-    public ProductDto persistProduct(ProductDto dto){
-        var product = mapper.map(dto, Product.class);
-        var persistedProduct = repository.save(product);
-        return mapper.map(persistedProduct, ProductDto.class);
-    }
 
     public void deleteProduct(Long code){
         repository.deleteById(code);

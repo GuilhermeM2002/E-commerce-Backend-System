@@ -3,7 +3,7 @@ package br.com.onlineStore.catalogms.controller;
 import br.com.onlineStore.catalogms.application.dto.ProductDto;
 import br.com.onlineStore.catalogms.application.useCasesImpl.PersistProductUseCaseImpl;
 import br.com.onlineStore.catalogms.application.useCasesImpl.UpdateProductUseCaseImpl;
-import br.com.onlineStore.catalogms.infra.exception.PriceInvalidException;
+import br.com.onlineStore.catalogms.core.exception.PriceInvalidException;
 import br.com.onlineStore.catalogms.infra.ProductRepositoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
