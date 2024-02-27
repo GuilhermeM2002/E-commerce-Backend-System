@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: online-store
+spec:
+  selector:
+    matchLabels:
+      app: online-store
+  template:
+    metadata:
+      labels:
+        app: online-store
+    spec:
+      containers:
+      - name: authentication-ms
+        image: guilhermemr/onlinestore:v1
+        ports:
+        - containerPort: 3000
+        env:
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: data
+              key: DB_HOST
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: passwords
+              key: DB_PASSWORD
+        - name: REDIS_HOST 
+          valueFrom:
+            configMapKeyRef:
+              name: data 
+              key: REDIS_HOST 
+
+      livenessProbe:
+        httpGet:
+          path: /paciente
+          port: 3000
+        initialDelaySeconds: 10
+        periodSeconds: 3
