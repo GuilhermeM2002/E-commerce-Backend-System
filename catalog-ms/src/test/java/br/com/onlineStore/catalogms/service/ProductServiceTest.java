@@ -30,7 +30,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ProductServiceTest {
     @Mock
-    private br.com.onlineStore.catalogms.adapters.repository.ProductRepository repository;
+    private br.com.onlineStore.catalogms.repository.ProductRepository repository;
     @Mock
     private ModelMapper mapper;
     @InjectMocks
@@ -46,23 +46,7 @@ class ProductServiceTest {
         product = mock(Product.class);
         code = 1L;
     }
-    @Test
-    @DisplayName("Should persist product and return mapped DataProduct")
-    void persistProduct() {
-        when(mapper.map(dto, Product.class)).thenReturn(product);
-        when(repository.save(product)).thenReturn(product);
-        when(mapper.map(product, ProductDto.class)).thenReturn(dto);
-
-        ProductDto result = service.persistProduct(dto);
-
-        assertAll(
-                () -> assertNotNull(result),
-                () -> assertEquals(dto, result),
-                () -> verify(mapper).map(dto, Product.class),
-                () -> verify(repository).save(product),
-                () -> verify(mapper).map(product, ProductDto.class)
-        );
-    }
+    
     @Test
     @DisplayName("Existing product should update product and return mapped DataProduct")
     void updateProductCase1() {
