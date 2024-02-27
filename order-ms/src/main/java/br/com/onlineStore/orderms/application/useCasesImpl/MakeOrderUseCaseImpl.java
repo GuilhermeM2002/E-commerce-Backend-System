@@ -12,12 +12,14 @@ import br.com.onlineStore.orderms.core.domain.Status;
 import br.com.onlineStore.orderms.core.useCases.MakeOrderUseCase;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
 @Service
 public class MakeOrderUseCaseImpl implements MakeOrderUseCase {
     @Autowired
@@ -25,38 +27,45 @@ public class MakeOrderUseCaseImpl implements MakeOrderUseCase {
     @Autowired
     private OrderTotalPriceUseCaseImpl orderTotalPriceUseCase;
     @Autowired
-    private RegisterAddressUseCaseImpl registerAddressUseCase;
-    @Autowired
     private OrderRepository orderRepository;
     @Autowired
+    private KafkaTemplate<String, OrderDto> kafkaTemplate;
+    @Autowired
     private ModelMapper mapper;
+
     @Override
     public OrderDto makeOrder(String email, AddressDto addressDto) {
-        if(email != null){
+        if (email != null) {
             var allItemsFromCartDto = cartClient.getAllItems(email);
             var allItemsFromCart = allItemsFromCartDto.stream().map(
-                item -> mapper.map(item, ItemCart.class)).collect(Collectors.toSet());
-
+                    itemDto -> mapper.map(itemDto, ItemCart.class)).collect(Collectors.toSet());
             var order = createOrder(allItemsFromCart, addressDto);
 
             orderRepository.save(order);
+            mapper.map(order.getAddress(), AddressDto.class);
 
-            return mapper.map(order, OrderDto.class);
+            var orderDto = mapper.map(order, OrderDto.class);
+
+            kafkaTemplate.send("order-concluded", orderDto);
+
+            return orderDto;
         }
-        //make the exception
-        throw new RuntimeException("email not be null");
+
+        throw new IllegalArgumentException("email cannot be null or empty");
     }
-    private Order createOrder(Set<ItemCart> allItemsFromCart, AddressDto addressDto){
+
+    private Order createOrder(Set<ItemCart> allItemsFromCart, AddressDto addressDto) {
         var order = new Order();
 
         order.setItemCart(allItemsFromCart);
-        order.setAddress(
-                mapper.map(registerAddressUseCase.registerAddress(addressDto), Address.class));
+        var address = mapper.map(addressDto, Address.class);
+        order.setAddress(address);
         order.setDate(OffsetDateTime.now().minusHours(3));
         order.setTrackingCode(UUID.randomUUID().toString());
         order.setStatus(Status.PROCESSING);
-        order.setValue(orderTotalPriceUseCase.orderTotalPrice(allItemsFromCart.stream().map(
-                    item -> mapper.map(item, ItemDto.class)).collect(Collectors.toSet())));
+        var orderTotalPrice = orderTotalPriceUseCase.orderTotalPrice(allItemsFromCart.stream().map(
+                item -> mapper.map(item, ItemDto.class)).collect(Collectors.toSet()));
+        order.setValue(orderTotalPrice);
 
         return order;
     }

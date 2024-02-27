@@ -1,5 +1,6 @@
 package br.com.onlineStore.orderms.application.dto;
 
+import br.com.onlineStore.orderms.core.domain.Address;
 import br.com.onlineStore.orderms.core.domain.ItemCart;
 import br.com.onlineStore.orderms.core.domain.Status;
 import lombok.AllArgsConstructor;
@@ -16,9 +17,9 @@ import java.util.Set;
 public class OrderDto {
     private Long id;
     private Set<ItemCart> itemCart;
-    private AddressDto address;
+    private Address address;
     private OffsetDateTime date;
     private double value;
-    private String TrackingCode;
+    private String trackingCode;
     private Status status;
 }
