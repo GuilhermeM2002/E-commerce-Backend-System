@@ -10,10 +10,11 @@ import org.springframework.stereotype.Service;
 public class CancelOrderUseCaseImpl implements CancelOrderUseCase {
     @Autowired
     private OrderRepository orderRepository;
+
     @Override
     public void cancelOrder(Long id) {
         var order = orderRepository.getReferenceById(id);
-        if(order.getValue() <= 200){
+        if (order.getValue() <= 200) {
             order.setStatus(Status.CANCELED);
         }
     }
