@@ -4,6 +4,8 @@ import br.com.onlineStore.shoppingCartms.application.dto.ItemCartDto;
 import br.com.onlineStore.shoppingCartms.application.dto.PersistDto;
 import br.com.onlineStore.shoppingCartms.application.useCasesImpl.FindAllItemByUserEmailUseCaseImpl;
 import br.com.onlineStore.shoppingCartms.application.useCasesImpl.GenerateItemCartUseCaseImpl;
+import br.com.onlineStore.shoppingCartms.application.useCasesImpl.UpdateItemCartUseCaseImpl;
+import br.com.onlineStore.shoppingCartms.core.useCases.UpdateItemCartUseCase;
 import br.com.onlineStore.shoppingCartms.infra.ShoppingCartRepositoryService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,6 +30,8 @@ public class ShoppingCartController {
     private GenerateItemCartUseCaseImpl generateItemCartUseCase;
     @Autowired
     private FindAllItemByUserEmailUseCaseImpl findAllItemByUserEmailUseCase;
+    @Autowired
+    private UpdateItemCartUseCaseImpl updateItemCartUseCaseImpl;
 
     @PostMapping
     public ResponseEntity<ItemCartDto> persist(
@@ -47,7 +51,7 @@ public class ShoppingCartController {
 
     @PutMapping("{id}")
     public ResponseEntity<ItemCartDto> update(@RequestBody @Valid ItemCartDto dto, @PathVariable Long id){
-        var cart = service.updateItemCart(dto, id);
+        var cart = updateItemCartUseCaseImpl.updateItemCart(dto, id);
         return ResponseEntity.ok(cart);
     }
 
