@@ -1,6 +1,6 @@
 package br.com.onlineStore.orderms.controller;
 
-import br.com.onlineStore.orderms.application.dto.OrderDto;
+import br.com.onlineStore.orderms.application.dto.AddressDto;
 import br.com.onlineStore.orderms.application.useCasesImpl.CancelOrderUseCaseImpl;
 import br.com.onlineStore.orderms.application.useCasesImpl.MakeOrderUseCaseImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,18 +17,17 @@ public class OrderController {
     private CancelOrderUseCaseImpl cancelOrderUseCase;
 
     @PostMapping
-    public ResponseEntity<OrderDto> makeOrder(
-            @RequestBody OrderDto orderDto,
+    public ResponseEntity<Object> makeOrder(
+            @RequestBody AddressDto addressDto,
             @CookieValue String email,
-            UriComponentsBuilder uriComponentsBuilder)
-    {
-        var uri = uriComponentsBuilder.path("order/${id}").buildAndExpand(orderDto.getId()).toUri();
-        var order = makeOrderUseCase.makeOrder(email, orderDto.getAddress());
-
+            UriComponentsBuilder uriComponentsBuilder) {
+        var order = makeOrderUseCase.makeOrder(email, addressDto);
+        var uri = uriComponentsBuilder.path("order/${id}").buildAndExpand(order.getId()).toUri();
         return ResponseEntity.created(uri).body(order);
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> cancelOrder(@PathVariable Long id){
+    public ResponseEntity<String> cancelOrder(@PathVariable Long id) {
         cancelOrderUseCase.cancelOrder(id);
         return ResponseEntity.noContent().build();
     }
