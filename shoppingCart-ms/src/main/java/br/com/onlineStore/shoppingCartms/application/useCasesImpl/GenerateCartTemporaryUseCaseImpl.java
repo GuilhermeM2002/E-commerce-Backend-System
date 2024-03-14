@@ -22,31 +22,30 @@ public class GenerateCartTemporaryUseCaseImpl implements GenerateCartTemporaryUs
     private ModelMapper mapper;
 
     @Override
-    public ShoppingCartDto generateCartTemporary(String token) {
+    public ShoppingCartDto generateCartTemporary(String token, String email) {
         var cart = shoppingCartRepository.findByToken(token);
         if (cart != null){
+            if (cart.getUserEmail() == null && email != null){
+                cart.setUserEmail(email);
+                shoppingCartRepository.save(cart);
+            }
             return mapper.map(cart, ShoppingCartDto.class);
         }
-        var newCart = generateCart();
+        var newCart = generateCart(token, email);
         shoppingCartRepository.save(newCart);
 
         return mapper.map(newCart, ShoppingCartDto.class);
     }
 
-    private ShoppingCart generateCart(){
+    private ShoppingCart generateCart(String token, String email){
         var cart = new ShoppingCart();
-        cart.setToken(generateToken());
+        cart.setToken(token);
+        cart.setUserEmail(email);
         cart.setDateCreation(OffsetDateTime.now().minusHours(3));
         cart.setStatus(Status.ACTIVE);
 
         return cart;
     }
 
-    private String generateToken() {
-        var token = new SecureRandom();
-        var randomByte = new byte[32];
-        token.nextBytes(randomByte);
 
-        return Base64.getUrlEncoder().withoutPadding().encodeToString(randomByte);
-    }
 }

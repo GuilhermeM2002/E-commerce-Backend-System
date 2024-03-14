@@ -25,14 +25,14 @@ public class GenerateItemCartUseCaseImpl implements GenerateItemCartUseCase {
     private ModelMapper mapper;
 
     @Override
-    public ItemCartDto generateItemCart(PersistDto persistDto, String token) {
+    public ItemCartDto generateItemCart(PersistDto persistDto, String token, String email) {
         var item = new ItemCart();
 
         ProductDto productSaved = saveProduct.saveProduct(persistDto.id());
         var product = mapper.map(productSaved, ProductCart.class);
         item.setProduct(product);
 
-        ShoppingCartDto cartSaved = generateCartTemporary.generateCartTemporary(token);
+        ShoppingCartDto cartSaved = generateCartTemporary.generateCartTemporary(token, email);
         var cart = mapper.map(cartSaved, ShoppingCart.class);
         item.setShoppingCart(cart);
 

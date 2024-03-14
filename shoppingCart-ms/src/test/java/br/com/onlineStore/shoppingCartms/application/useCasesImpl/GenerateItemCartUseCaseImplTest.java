@@ -49,6 +49,7 @@ public class GenerateItemCartUseCaseImplTest {
                 var persistDto = new PersistDto(1L, 5);
 
                 String token = "token";
+                String email = "email@email.com";
 
                 var productCart = new ProductCart();
                 var productCartDto = mock(ProductDto.class);
@@ -64,21 +65,21 @@ public class GenerateItemCartUseCaseImplTest {
                 when(saveProduct.saveProduct(anyLong())).thenReturn(productCartDto);
                 when(mapper.map(productCartDto, ProductCart.class))
                                 .thenReturn(productCart);
-                when(generateCartTemporary.generateCartTemporary(token)).thenReturn(shoppingCartDto);
+                when(generateCartTemporary.generateCartTemporary(token, email)).thenReturn(shoppingCartDto);
                 when(mapper.map(shoppingCartDto, ShoppingCart.class))
                                 .thenReturn(shoppingCart);
                 when(itemCartRepository.save(itemCart)).thenReturn(itemCart);
                 when(mapper.map(itemCart, ItemCartDto.class))
                                 .thenReturn(itemCartDto);
 
-                ItemCartDto result = generateItemCartUseCase.generateItemCart(persistDto, token);
+                ItemCartDto result = generateItemCartUseCase.generateItemCart(persistDto, token, email);
 
                 assertAll(
                                 () -> assertNotNull(result),
                                 () -> assertEquals(itemCartDto, result),
                                 () -> verify(itemCartRepository, times(1)).save(any(ItemCart.class)),
                                 () -> verify(saveProduct).saveProduct(anyLong()),
-                                () -> verify(generateCartTemporary).generateCartTemporary(token),
+                                () -> verify(generateCartTemporary).generateCartTemporary(token, email),
                                 () -> verify(mapper).map(productCartDto, ProductCart.class),
                                 () -> verify(mapper).map(shoppingCartDto, ShoppingCart.class),
                                 () -> verify(mapper).map(itemCart, ItemCartDto.class));

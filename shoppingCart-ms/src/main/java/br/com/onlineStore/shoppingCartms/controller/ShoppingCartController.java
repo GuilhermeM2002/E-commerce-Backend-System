@@ -38,14 +38,18 @@ public class ShoppingCartController {
             UriComponentsBuilder uriBuilder,
             HttpServletResponse response,
             @RequestBody PersistDto dto,
-            @CookieValue(name = "cart-token") String token){
+            @CookieValue(name = "cart-token", required = false) String token,
+            @CookieValue(name = "email-cookie", required = false) String email){
 
         var uri = uriBuilder.path("shoppingCart/${id}").buildAndExpand(dto.id()).toUri();
-        var item = generateItemCartUseCase.generateItemCart(dto, token);
+        if(token == null){
+            var cookie = service.createCookie();
+            response.addCookie(cookie);
+            var item = generateItemCartUseCase.generateItemCart(dto, cookie.getValue(), email);
+            return ResponseEntity.created(uri).body(item);
+        }
+        var item = generateItemCartUseCase.generateItemCart(dto, token, email);
 
-        var cookie = new Cookie("cart-token", item.getShoppingCart().getToken());
-        cookie.setMaxAge(60 * 60 * 72); //three days
-        response.addCookie(cookie);
         return ResponseEntity.created(uri).body(item);
     }
 
