@@ -19,6 +19,7 @@ public class ConvertCartPermanentUseCaseImpl implements ConvertCartPermanentUseC
 
         if (cart.getUserEmail() == null){
            cart.setUserEmail(signIn.getEmail());
+           shoppingCartRepository.save(cart);
         }
     }
 }
