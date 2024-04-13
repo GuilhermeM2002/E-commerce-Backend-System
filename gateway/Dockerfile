@@ -1,6 +1,6 @@
-FROM openjdk:latest
+FROM openjdk:17-alpine
 WORKDIR /app
-COPY target/gateway-0.0.1-SNAPSHOT.jar .
-CMD ["java", "-jar", "gateway-0.0.1-SNAPSHOT.jar"]
-EXPOSE 3000
+COPY ./target/gateway_jar/gateway.jar .
+CMD ["java", "-jar", "gateway.jar"]
+EXPOSE 3002
 

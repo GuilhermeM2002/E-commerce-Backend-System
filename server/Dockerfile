@@ -1,5 +1,5 @@
-FROM openjdk:latest
+FROM openjdk:17-alpine
 WORKDIR /app
-COPY  ./target/server-0.0.1-SNAPSHOT.jar .
+COPY ./target/server-0.0.1-SNAPSHOT.jar .
 CMD ["java", "-jar", "server-0.0.1-SNAPSHOT.jar"]
-EXPOSE 8090
+EXPOSE 3001
