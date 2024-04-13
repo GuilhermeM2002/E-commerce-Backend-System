@@ -38,13 +38,14 @@ public class GenerateCartTemporaryUseCaseImplTest {
     void testGenerateCartTemporary() {
         var cart = new ShoppingCart();
         var cartDto = mock(ShoppingCartDto.class);
+        var email = "email@email.com";
         var token = "token";
 
         when(shoppingCartRepository.findByToken(anyString())).thenReturn(null);
         when(shoppingCartRepository.save(cart)).thenReturn(cart);
         when(mapper.map(cart, ShoppingCartDto.class)).thenReturn(cartDto);
 
-        var result = generateCartTemporaryUseCaseImpl.generateCartTemporary(token);
+        var result = generateCartTemporaryUseCaseImpl.generateCartTemporary(token, email);
 
         assertAll(
                 () -> assertEquals(cartDto, result),
