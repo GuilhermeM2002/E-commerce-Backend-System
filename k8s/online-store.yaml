@@ -13,9 +13,29 @@ spec:
     spec:
       containers:
       - name: authentication-ms
-        image: guilhermemr/onlinestore:v1
+        image: guilhermemr/osauthentication:v1
         ports:
         - containerPort: 3000
+      - name: server
+        image: guilhermemr/osserver:v1
+        ports:
+        - containerPort: 3001
+      - name: gateway
+        image: guilhermemr/osgateway:v1
+        ports:
+          - containerPort: 3002
+      - name: catalog-ms
+        image: guilhermemr/oscatalog:v1
+        ports:
+          - containerPort: 3003
+      - name: cart
+        image: guilhermemr/oscart:v1
+        ports:
+          - containerPort: 3004
+      - name: order
+        image: guilhermemr/osorder:v1
+        ports:
+          - containerPort: 3005
         env:
         - name: DB_HOST
           valueFrom:
@@ -35,7 +55,7 @@ spec:
 
       livenessProbe:
         httpGet:
-          path: /paciente
+          path: /sing-in
           port: 3000
         initialDelaySeconds: 10
         periodSeconds: 3
