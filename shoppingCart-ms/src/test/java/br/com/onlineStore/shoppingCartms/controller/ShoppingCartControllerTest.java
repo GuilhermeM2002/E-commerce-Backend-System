@@ -6,6 +6,7 @@ import br.com.onlineStore.shoppingCartms.core.domain.ShoppingCart;
 import br.com.onlineStore.shoppingCartms.core.domain.Status;
 import br.com.onlineStore.shoppingCartms.infra.ShoppingCartRepositoryService;
 import io.restassured.http.ContentType;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,9 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -94,10 +97,14 @@ class ShoppingCartControllerTest {
 
     @Test
     void findAll() {
-        Response response =given()
+        given()
                 .when()
-                .get(url);
-        assertEquals(200, response.getStatusCode());
+                .get(url)
+                .then()
+                .statusCode(200)
+                .body("size( )", greaterThan(0))
+                .body(matchesJsonSchemaInClasspath("expectedSchemaItemCart.json"))
+                .log().all();
     }
 
     @Test
@@ -108,6 +115,7 @@ class ShoppingCartControllerTest {
                 .get(url + "/{email}")
                 .then()
                 .statusCode(200)
+                .body(matchesJsonSchemaInClasspath("expectedSchemaItemCart.json"))
                 .log().all();
     }
 }

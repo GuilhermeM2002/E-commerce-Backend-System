@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "product": {
+      "type": "object",
+      "properties": {
+        "codeProduct": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number"
+        },
+        "quantity": {
+          "type": "integer"
+        }
+      },
+      "required": ["codeProduct", "name", "price", "quantity"]
+    },
+    "shoppingCart": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "dateCreation": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "token": {
+          "type": "string"
+        },
+        "userEmail": {
+          "type": "string",
+          "format": "email"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": ["id", "dateCreation", "token", "userEmail", "status"]
+    },
+    "quantity": {
+      "type": "integer"
+    }
+  },
+  "required": ["id", "product", "shoppingCart", "quantity"]
+}
