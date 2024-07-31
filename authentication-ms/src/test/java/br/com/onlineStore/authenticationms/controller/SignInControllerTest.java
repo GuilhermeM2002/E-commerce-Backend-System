@@ -4,11 +4,12 @@ import br.com.onlineStore.authenticationms.application.dto.SignInDto;
 import io.restassured.http.Cookie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
-
+@SpringBootTest
 class SignInControllerTest {
     private SignInDto signInDto;
     private String uri;
@@ -33,6 +34,7 @@ class SignInControllerTest {
                 .post(uri)
                 .then()
                 .statusCode(200)
+                .body("token", not(emptyOrNullString()))
                 .cookie("email-cookie", equalTo(signInDto.getEmail()))
                 .log().all();
     }
