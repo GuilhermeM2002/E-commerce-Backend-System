@@ -3,12 +3,13 @@ package br.com.onlineStore.authenticationms.controller;
 import br.com.onlineStore.authenticationms.application.dto.SignUpDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
-
+@SpringBootTest
 class SignUpControllerTest {
     private SignUpDto signUpDto;
     private String uri;
