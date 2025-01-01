@@ -1,1 +1,0 @@
-alter table orders add constraint orders_address_fk foreign key(address_fk) references address(id);

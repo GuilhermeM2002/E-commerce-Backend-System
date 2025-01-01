@@ -1,1 +1,0 @@
-alter table item add constraint item_cart_fk foreign key(cart_fk) references cart(id);
