@@ -1,42 +1,43 @@
 # E-commerce Backend System
 
-Este repositório contém o código-fonte de um sistema backend para um e-commerce. O projeto foi desenvolvido utilizando Java e Spring Framework, com suporte para microsserviços, mensagens assíncronas e persistência de dados em MySQL.
+This repository contains the source code for an e-commerce backend system. The project was developed using Java and the Spring Framework, with support for microservices, asynchronous messaging, and data persistence in MySQL.
 
 ---
 
-## Tecnologias Utilizadas
+## Technologies Used
 
 - **Java 17**  
 - **Spring Framework**  
   - Spring Boot  
   - Spring Data JPA  
   - Spring Cloud OpenFeign  
-  - Spring Cloud Netflix Eureka
+  - Spring Cloud Netflix Eureka  
   - ...  
 - **MySQL**  
 - **Apache Kafka**  
-- **Docker e Docker Compose**  
+- **Docker and Docker Compose**  
 
 ---
 
-## Arquitetura do Sistema
+## System Architecture
 
-O sistema utiliza uma arquitetura baseada em microsserviços, com as seguintes características principais:
+The system follows a microservices-based architecture with the following key features:
 
-1. **Microsserviços**:  
-   Cada funcionalidade principal (pedidos, produtos, clientes) está separada em serviços independentes.
+1. **Microservices**:  
+   Each main functionality (orders, products, customers) is separated into independent services.
 
-2. **Comunicação assíncrona**:  
-   Mensagens entre microsserviços são trocadas via **Apache Kafka**.
+2. **Asynchronous Communication**:  
+   Messages between microservices are exchanged via **Apache Kafka**.
 
-3. **Comunicação síncrona**:  
-   Utilizamos **OpenFeign** para chamadas HTTP entre os microsserviços.
+3. **Synchronous Communication**:  
+   **OpenFeign** is used for HTTP calls between microservices.
 
-4. **Registro e Descoberta**:  
-   Microsserviços se registram e são descobertos dinamicamente via **Eureka Server**.
+4. **Service Discovery and Registration**:  
+   Microservices are dynamically registered and discovered via **Eureka Server**.
 
-5. **Persistência de Dados**:  
-   Banco de dados **MySQL**, acessado através do Spring Data JPA.
+5. **Data Persistence**:  
+   **MySQL** database accessed through Spring Data JPA.
 
-6. **Containerização**:  
-   Todo o ambiente é orquestrado via **Docker Compose**.
+6. **Containerization**:  
+   The entire environment is orchestrated using **Docker Compose**.
+
